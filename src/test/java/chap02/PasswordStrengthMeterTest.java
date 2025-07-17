@@ -23,7 +23,7 @@ public class PasswordStrengthMeterTest {
 
     @Test
     void meetsOtherCriteriaExceptForLengthThenNormal() {
-        assertStrength("ab12!@a", PasswordStrength.NORMAL);
+        assertStrength("ab122!@a", PasswordStrength.NORMAL);
     }
 
     @Test
