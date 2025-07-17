@@ -56,6 +56,11 @@ public class PasswordStrengthMeterTest {
         assertStrength("ABZEF", PasswordStrength.WEEK);
     }
 
+    @Test
+    void 아무_조건도_충족하지_않은_경우() {
+        assertStrength("abc", PasswordStrength.WEEK);
+    }
+
     private void assertStrength(String s, PasswordStrength normal) {
         PasswordStrength result = meter.meter(s);
         assertEquals(normal, result);
