@@ -21,6 +21,21 @@ public class ExpiryDateCalculatorTest {
         assertExpiryDate(PaymentData.of(LocalDate.of(2020, 1, 31), 10_000), LocalDate.of(2020, 2, 29));
     }
 
+    @Test
+    void 첫_납부일과_만료일_일자가_다를때_만원_납부() {
+        assertExpiryDate(PaymentData.of(
+                LocalDate.of(2025,1, 31),
+                LocalDate.of(2025, 2, 28),
+                10_000
+        ), LocalDate.of(2025, 3, 31));
+
+        assertExpiryDate(PaymentData.of(
+                LocalDate.of(2025,1, 30),
+                LocalDate.of(2025, 2, 28),
+                10_000
+        ), LocalDate.of(2025, 3, 30));
+    }
+
     private void assertExpiryDate(
             PaymentData paymentData, LocalDate expectedExpiryDate
     ) {
