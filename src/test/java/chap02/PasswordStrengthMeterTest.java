@@ -41,6 +41,11 @@ public class PasswordStrengthMeterTest {
         assertStrength("ab12!@df", PasswordStrength.NORMAL);
     }
 
+    @Test
+    void 길이가_8글자_이상인_조건만_충족하는_경우() {
+        assertStrength("abdefght", PasswordStrength.WEEK);
+    }
+
     private void assertStrength(String s, PasswordStrength normal) {
         PasswordStrength result = meter.meter(s);
         assertEquals(normal, result);
