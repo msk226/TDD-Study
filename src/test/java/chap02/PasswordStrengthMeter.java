@@ -6,15 +6,16 @@ public class PasswordStrengthMeter {
             return PasswordStrength.NORMAL;
         }
 
-        boolean containsNum = false;
+        if (meetsContainingNumberCriteria(s)) return PasswordStrength.NORMAL;
+        return PasswordStrength.STRONG;
+    }
+
+    private boolean meetsContainingNumberCriteria(String s) {
         for (char ch : s.toCharArray()) {
             if (ch >= '0' && ch <= '9') {
-                containsNum = true;
-                break;
+                return true;
             }
         }
-
-        if (!containsNum) return PasswordStrength.NORMAL;
-        return PasswordStrength.STRONG;
+        return false;
     }
 }
