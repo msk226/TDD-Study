@@ -31,6 +31,11 @@ public class PasswordStrengthMeterTest {
         assertStrength("ab!@ABqwer", PasswordStrength.NORMAL);
     }
 
+    @Test
+    void 값이_없는_경우_INVALID를_리턴한다() {
+        assertStrength(null, PasswordStrength.INVALID);
+    }
+
     private void assertStrength(String s, PasswordStrength normal) {
         PasswordStrength result = meter.meter(s);
         assertEquals(normal, result);
