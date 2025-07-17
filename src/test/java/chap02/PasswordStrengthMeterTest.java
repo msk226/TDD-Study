@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class PasswordStrengthMeterTest {
 
+    PasswordStrengthMeter meter = new PasswordStrengthMeter();
     @Test
     void name() {
         // 가장 쉽거나 가장 예외적인 경우 먼저 테스트.
@@ -16,26 +17,23 @@ public class PasswordStrengthMeterTest {
 
     @Test
     void meetAllCriteriaThenStrong() {
-        PasswordStrengthMeter meter = new PasswordStrengthMeter();
-        PasswordStrength result = meter.meter("ab12!@AB");
-        assertEquals(PasswordStrength.STRONG, result);
-
-        PasswordStrength result2 = meter.meter("abc1!Add");
-        assertEquals(PasswordStrength.STRONG, result2);
+        assertStrength("ab12!@AB", PasswordStrength.STRONG);
+        assertStrength("abc1!Add", PasswordStrength.STRONG);
     }
 
     @Test
     void meetsOtherCriteriaExceptForLengthThenNormal() {
-        PasswordStrengthMeter meter = new PasswordStrengthMeter();
-        PasswordStrength result = meter.meter("ab12!@a");
-        assertEquals(PasswordStrength.NORMAL, result);
+        assertStrength("ab12!@a", PasswordStrength.NORMAL);
     }
 
     @Test
     void meetsOtherCriteriaExceptForNumberThenNormals() {
-        PasswordStrengthMeter meter = new PasswordStrengthMeter();
-        PasswordStrength result = meter.meter("ab!@ABqwer");
-        assertEquals(PasswordStrength.NORMAL, result);
+        assertStrength("ab!@ABqwer", PasswordStrength.NORMAL);
+    }
+
+    private void assertStrength(String s, PasswordStrength normal) {
+        PasswordStrength result = meter.meter(s);
+        assertEquals(normal, result);
     }
 
 
