@@ -11,6 +11,9 @@ public class PasswordStrengthMeter {
         if (lengthEnough && !containsNum && !containsUpp) {
             return PasswordStrength.WEEK;
         }
+        if (!lengthEnough && containsNum && !containsUpp) {
+            return PasswordStrength.WEEK;
+        }
 
         if (!lengthEnough) {
             return PasswordStrength.NORMAL;
