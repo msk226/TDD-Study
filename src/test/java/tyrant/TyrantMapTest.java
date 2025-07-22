@@ -48,12 +48,18 @@ public class TyrantMapTest {
 
             int status = reader.read();
             assertEquals(0, status);
+
+            close();
         }
 
         private void open() throws IOException {
             socket = new Socket("localhost", 1978);
             writer = new DataOutputStream(socket.getOutputStream());
             reader = new DataInputStream(socket.getInputStream());
+        }
+
+        private void close() throws IOException {
+            socket.close();
         }
 
     }
