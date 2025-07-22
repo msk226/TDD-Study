@@ -1,5 +1,6 @@
 package tyrant;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,34 +13,28 @@ public class TyrantMapTest {
     @Test
     void nothing() throws IOException {
         TyrantMap tyrantMap = new TyrantMap();
-        tyrantMap.put();
+        tyrantMap.put(new byte[]{'k', 'e', 'y'}, new byte[]{'v', 'a', 'l', 'u', 'e'});
     }
 
     private class TyrantMap {
         public static final int OPERATION_PREFIX = 0xC8;
         public static final int PUT_OPERATION = 0x10;
 
-        public void put() throws IOException {
+        public void put(byte[] key, byte[] value) throws IOException {
             Socket socket = new Socket("localhost", 1978);
-            OutputStream writer = socket.getOutputStream();
+            DataOutputStream writer = new DataOutputStream(socket.getOutputStream());
             writer.write(OPERATION_PREFIX);
             writer.write(PUT_OPERATION);
-            writer.write(0);
-            writer.write(0);
-            writer.write(0);
-            writer.write(3);
-
-            writer.write(0);
-            writer.write(0);
-            writer.write(0);
-            writer.write(5);
-            writer.write(new byte[]{'k', 'e', 'y'});
-            writer.write(new byte[]{'v', 'a', 'l', 'u', 'e'});
+            writer.writeInt(key.length);
+            writer.writeInt(value.length);
+            writer.write(key);
+            writer.write(value);
 
             InputStream reader = socket.getInputStream();
             int status = reader.read();
             Assertions.assertEquals(0, status);
         }
+
     }
 
 }
