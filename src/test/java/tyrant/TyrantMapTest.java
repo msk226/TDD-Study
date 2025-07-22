@@ -41,10 +41,7 @@ public class TyrantMapTest {
 
         public void put(byte[] key, byte[] value) throws IOException {
             writeOperation(PUT_OPERATION);
-            writer.writeInt(key.length);
-            writer.writeInt(value.length);
-            writer.write(key);
-            writer.write(value);
+            writeKeyValue(key, value);
 
             validateStatus();
         }
@@ -59,12 +56,7 @@ public class TyrantMapTest {
             return readResults();
         }
 
-        private byte[] readResults() throws IOException {
-            int size = reader.readInt();
-            byte[] result = new byte[size];
-            reader.read(result);
-            return result;
-        }
+
 
         public void open() throws IOException {
             socket = new Socket("localhost", 1978);
@@ -76,16 +68,29 @@ public class TyrantMapTest {
             socket.close();
         }
 
-        private void validateStatus() throws IOException {
-            int status = reader.read();
-            assertEquals(0, status);
-        }
-
         private void writeOperation(int putOperation) throws IOException {
             writer.write(OPERATION_PREFIX);
             writer.write(putOperation);
         }
 
+        private void writeKeyValue(byte[] key, byte[] value) throws IOException {
+            writer.writeInt(key.length);
+            writer.writeInt(value.length);
+            writer.write(key);
+            writer.write(value);
+        }
+
+        private void validateStatus() throws IOException {
+            int status = reader.read();
+            assertEquals(0, status);
+        }
+
+        private byte[] readResults() throws IOException {
+            int size = reader.readInt();
+            byte[] result = new byte[size];
+            reader.read(result);
+            return result;
+        }
     }
 
 }
