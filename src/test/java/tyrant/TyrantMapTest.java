@@ -56,6 +56,10 @@ public class TyrantMapTest {
 
             validateStatus();
 
+            return readResults();
+        }
+
+        private byte[] readResults() throws IOException {
             int size = reader.readInt();
             byte[] result = new byte[size];
             reader.read(result);
