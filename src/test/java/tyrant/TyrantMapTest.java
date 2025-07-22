@@ -23,7 +23,7 @@ public class TyrantMapTest {
     }
 
     @Test
-    void nothing() throws IOException {
+    void put() throws IOException {
         TyrantMap tyrantMap = new TyrantMap();
         tyrantMap.open();
         tyrantMap.put(new byte[]{'k', 'e', 'y'}, new byte[]{'v', 'a', 'l', 'u', 'e'});
