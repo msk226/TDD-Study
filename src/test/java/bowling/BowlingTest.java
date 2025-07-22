@@ -33,8 +33,7 @@ public class BowlingTest {
 
     @Test
     void oneSpare() {
-        game.roll(5);
-        game.roll(5); // spare
+        rollSpare();
         game.roll(3);
         rollMany(17, 0);
         assertEquals(16, game.getScore());
@@ -45,4 +44,9 @@ public class BowlingTest {
             game.roll(pins);
         }
     }
+    private void rollSpare() {
+        game.roll(5);
+        game.roll(5); // spare
+    }
+
 }
