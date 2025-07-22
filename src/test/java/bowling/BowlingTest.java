@@ -43,7 +43,7 @@ public class BowlingTest {
     void oneStrike() {
         game.roll(10);
         game.roll(5);
-        game.roll(5);
+        game.roll(3);
         rollMany(16, 0);
         assertEquals(26, game.getScore());
     }

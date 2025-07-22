@@ -16,6 +16,9 @@ public class Game {
             if (isSpare(firstFrame)) {
                 score += 10 + rolls[firstFrame + 2];
                 firstFrame += 2;
+            } else if (rolls[firstFrame] == 10) {
+              score += 10 + rolls[firstFrame + 1] + rolls[firstFrame + 2];
+              firstFrame += 1;
             } else {
                 score += rolls[firstFrame] + rolls[firstFrame + 1];
                 firstFrame += 2;
