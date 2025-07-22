@@ -16,11 +16,14 @@ public class TyrantMapTest {
     }
 
     private class TyrantMap {
+        public static final int OPERATION_PREFIX = 0xC8;
+        public static final int PUT_OPERATION = 0x10;
+
         public void put() throws IOException {
             Socket socket = new Socket("localhost", 1978);
             OutputStream writer = socket.getOutputStream();
-            writer.write(0xC8);
-            writer.write(0x10);
+            writer.write(OPERATION_PREFIX);
+            writer.write(PUT_OPERATION);
             writer.write(0);
             writer.write(0);
             writer.write(0);
