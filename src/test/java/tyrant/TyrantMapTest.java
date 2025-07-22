@@ -1,5 +1,6 @@
 package tyrant;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +31,7 @@ public class TyrantMapTest {
             writer.write(key);
             writer.write(value);
 
-            InputStream reader = socket.getInputStream();
+            DataInputStream reader = new DataInputStream(socket.getInputStream());
             int status = reader.read();
             Assertions.assertEquals(0, status);
         }
