@@ -12,11 +12,11 @@ public class TyrantMapTest {
     @Test
     void nothing() throws IOException {
         TyrantMap tyrantMap = new TyrantMap();
-        tyrantMap.invoke();
+        tyrantMap.put();
     }
 
     private class TyrantMap {
-        public void invoke() throws IOException {
+        public void put() throws IOException {
             Socket socket = new Socket("localhost", 1978);
             OutputStream writer = socket.getOutputStream();
             writer.write(0xC8);
