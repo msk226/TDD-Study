@@ -14,12 +14,12 @@ import org.junit.jupiter.api.Test;
 public class TyrantMapTest {
 
     @Test
-    public void get_retrives_what_was_put() {
-//        TyrantMap map = new TyrantMap(); // 3.1
-//        final byte[] key = "key".getBytes(); // 3.2
-//        final byte[] value = "value".getBytes(); // 3.3
-//        map.put(key, value); // 2
-//        assertEquals(value, map.get(key)); // 1
+    public void get_retrives_what_was_put() throws IOException {
+        TyrantMap map = new TyrantMap(); // 3.1
+        final byte[] key = "key".getBytes(); // 3.2
+        final byte[] value = "value".getBytes(); // 3.3
+        map.put(key, value); // 2
+        assertEquals(value, map.get(key)); // 1
     }
 
     @Test
@@ -31,6 +31,7 @@ public class TyrantMapTest {
     private class TyrantMap {
         public static final int OPERATION_PREFIX = 0xC8;
         public static final int PUT_OPERATION = 0x10;
+        public static final int GET_OPERATION = 0x30;
 
         private Socket socket;
         private DataOutputStream writer;
@@ -50,6 +51,21 @@ public class TyrantMapTest {
             assertEquals(0, status);
 
             close();
+        }
+
+        public byte[] get(byte[] key) throws IOException {
+            writer.write(OPERATION_PREFIX);
+            writer.write(GET_OPERATION);
+            writer.writeInt(key.length);
+            writer.write(key);
+
+            int status = reader.read();
+            assertEquals(0, status);
+
+            int size = reader.readInt();
+            byte[] result = new byte[size];
+            reader.read(result);
+            return result;
         }
 
         private void open() throws IOException {
