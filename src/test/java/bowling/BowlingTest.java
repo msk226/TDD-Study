@@ -39,6 +39,15 @@ public class BowlingTest {
         assertEquals(16, game.getScore());
     }
 
+    @Test
+    void oneStrike() {
+        game.roll(10);
+        game.roll(5);
+        game.roll(5);
+        rollMany(16, 0);
+        assertEquals(26, game.getScore());
+    }
+
     private void rollMany(int rolls, int pins) {
         for (int i = 0; i < rolls; i++) {
             game.roll(pins);
