@@ -2,7 +2,6 @@ package bowling;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,17 +21,19 @@ public class BowlingTest {
 
     @Test
     void gutterGame() {
-        for (int i = 0; i < 20; i++) {
-            game.roll(0);
-        }
+        rollMany(20, 0);
         assertEquals(0, game.getScore());
     }
 
     @Test
     void allOnes() {
-        for (int i = 0; i < 20; i++) {
-            game.roll(1);
-        }
+        rollMany(20, 1);
         assertEquals(20, game.getScore());
+    }
+
+    private void rollMany(int rolls, int pins) {
+        for (int i = 0; i < rolls; i++) {
+            game.roll(pins);
+        }
     }
 }
