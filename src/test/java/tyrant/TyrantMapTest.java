@@ -5,10 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
-import org.junit.jupiter.api.Assertions;
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 public class TyrantMapTest {
@@ -16,16 +14,20 @@ public class TyrantMapTest {
     @Test
     public void get_retrives_what_was_put() throws IOException {
         TyrantMap map = new TyrantMap(); // 3.1
+        map.open();
         final byte[] key = "key".getBytes(); // 3.2
         final byte[] value = "value".getBytes(); // 3.3
         map.put(key, value); // 2
-        assertEquals(value, map.get(key)); // 1
+        assertEquals(Arrays.toString(value), Arrays.toString(map.get(key))); // 1
+        map.close();
     }
 
     @Test
     void nothing() throws IOException {
         TyrantMap tyrantMap = new TyrantMap();
+        tyrantMap.open();
         tyrantMap.put(new byte[]{'k', 'e', 'y'}, new byte[]{'v', 'a', 'l', 'u', 'e'});
+        tyrantMap.close();
     }
 
     private class TyrantMap {
@@ -38,8 +40,6 @@ public class TyrantMapTest {
         private DataInputStream reader;
 
         public void put(byte[] key, byte[] value) throws IOException {
-            open();
-
             writer.write(OPERATION_PREFIX);
             writer.write(PUT_OPERATION);
             writer.writeInt(key.length);
@@ -49,8 +49,6 @@ public class TyrantMapTest {
 
             int status = reader.read();
             assertEquals(0, status);
-
-            close();
         }
 
         public byte[] get(byte[] key) throws IOException {
@@ -68,13 +66,13 @@ public class TyrantMapTest {
             return result;
         }
 
-        private void open() throws IOException {
+        public void open() throws IOException {
             socket = new Socket("localhost", 1978);
             writer = new DataOutputStream(socket.getOutputStream());
             reader = new DataInputStream(socket.getInputStream());
         }
 
-        private void close() throws IOException {
+        public void close() throws IOException {
             socket.close();
         }
 
