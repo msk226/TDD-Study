@@ -10,9 +10,6 @@ public class BowlingTest {
     void setUp() {
         game = new Game();
     }
-    @Test
-    void canCreateGame() {
-    }
 
     @Test
     void canRoll() {
