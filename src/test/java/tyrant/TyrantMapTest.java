@@ -40,8 +40,7 @@ public class TyrantMapTest {
         private DataInputStream reader;
 
         public void put(byte[] key, byte[] value) throws IOException {
-            writer.write(OPERATION_PREFIX);
-            writer.write(PUT_OPERATION);
+            writeOperation(PUT_OPERATION);
             writer.writeInt(key.length);
             writer.writeInt(value.length);
             writer.write(key);
@@ -51,9 +50,13 @@ public class TyrantMapTest {
             assertEquals(0, status);
         }
 
-        public byte[] get(byte[] key) throws IOException {
+        private void writeOperation(int putOperation) throws IOException {
             writer.write(OPERATION_PREFIX);
-            writer.write(GET_OPERATION);
+            writer.write(putOperation);
+        }
+
+        public byte[] get(byte[] key) throws IOException {
+            writeOperation(GET_OPERATION);
             writer.writeInt(key.length);
             writer.write(key);
 
